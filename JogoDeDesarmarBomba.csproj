@@ -1,0 +1,17 @@
+<!-- Define que este arquivo é um projeto .NET usando o SDK padrão da Microsoft. -->
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Agrupa configurações principais do projeto. -->
+  <PropertyGroup>
+    <!-- Informa que o projeto gera um executável, ou seja, um programa que pode rodar. -->
+    <OutputType>Exe</OutputType>
+
+    <!-- Define a versão do .NET usada para compilar o projeto. -->
+    <TargetFramework>net10.0</TargetFramework>
+
+    <!-- Desativa imports automáticos para deixar claro quais using aparecem nos arquivos. -->
+    <ImplicitUsings>disable</ImplicitUsings>
+
+    <!-- Ativa avisos e checagens relacionadas a valores nulos. -->
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+</Project>
