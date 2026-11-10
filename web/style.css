@@ -1,0 +1,709 @@
+/* Estilos do jogo Desarme a Bomba */
+
+:root {
+  --background: oklch(0.16 0.01 260);
+  --foreground: oklch(0.96 0.005 260);
+  --surface: oklch(0.21 0.012 260);
+  --card: oklch(0.19 0.012 260);
+  --border: oklch(0.3 0.015 260);
+  --muted-fg: oklch(0.68 0.015 260);
+  --accent: oklch(0.26 0.015 260);
+  --brand: oklch(0.68 0.2 30);
+  --brand-soft: oklch(0.68 0.2 30 / 0.15);
+  --brand-muted: oklch(0.5 0.14 30);
+  --success: oklch(0.72 0.17 150);
+  --warning: oklch(0.82 0.16 85);
+  --danger: oklch(0.62 0.22 25);
+  --info: oklch(0.7 0.13 240);
+  --visor: oklch(0.12 0.02 150);
+
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 50% 0%, oklch(0.24 0.04 30 / 0.5), transparent 60%),
+    var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.escondido {
+  display: none !important;
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px 16px 48px;
+}
+
+.card {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+/* ---------- Topo ---------- */
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--brand);
+}
+
+.titulo h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: var(--foreground);
+}
+
+.botao-icone {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--foreground);
+}
+
+.botao-icone:hover {
+  background-color: var(--accent);
+}
+
+/* ---------- Botões ---------- */
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  transition: transform 0.1s, background-color 0.2s;
+}
+
+.botao:active {
+  transform: scale(0.97);
+}
+
+.botao:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.botao-principal {
+  background-color: var(--brand);
+  color: oklch(0.15 0.02 30);
+  font-weight: 700;
+}
+
+.botao-principal:hover {
+  background-color: oklch(0.74 0.19 30);
+}
+
+.botao-secundario {
+  background-color: var(--surface);
+  border-color: var(--border);
+  color: var(--foreground);
+}
+
+.botao-secundario:hover:not(:disabled) {
+  background-color: var(--accent);
+}
+
+.botao-perigo {
+  background-color: transparent;
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.botao-perigo:hover {
+  background-color: oklch(0.62 0.22 25 / 0.12);
+}
+
+/* ---------- Tela inicial ---------- */
+
+.subtitulo {
+  margin-top: 0;
+  color: var(--muted-fg);
+  font-size: 1.05rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 24px 0 12px;
+}
+
+h3 {
+  font-size: 1rem;
+  margin: 0 0 10px;
+}
+
+.dificuldades {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.dificuldade {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  text-align: left;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--foreground);
+}
+
+.dificuldade:hover {
+  border-color: var(--brand-muted);
+}
+
+.dificuldade.selecionada {
+  border-color: var(--brand);
+  background-color: var(--brand-soft);
+}
+
+.nome-nivel {
+  font-weight: 700;
+}
+
+.info-nivel {
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+}
+
+.campos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.campos label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+}
+
+.campos input {
+  width: 120px;
+  padding: 10px 12px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--foreground);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.campos input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+#botaoIniciar {
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px;
+  font-size: 1.1rem;
+}
+
+.regras,
+.recordes {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.regras ul,
+.recordes ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted-fg);
+  line-height: 1.8;
+}
+
+.recordes ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recordes li {
+  display: flex;
+  justify-content: space-between;
+  max-width: 320px;
+}
+
+.recordes strong {
+  color: var(--foreground);
+  font-family: 'DM Mono', monospace;
+}
+
+/* Bolinhas de dica (verde = lugar certo, amarela = lugar errado) */
+.bolinha {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  vertical-align: middle;
+}
+
+.bolinha.certa {
+  background-color: var(--success);
+}
+
+.bolinha.quase {
+  background-color: var(--warning);
+}
+
+.bolinha.errada {
+  background-color: var(--border);
+}
+
+/* ---------- Tela do jogo ---------- */
+
+.jogo {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+  align-items: start;
+}
+
+.bomba {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding-top: 40px;
+  background: linear-gradient(180deg, oklch(0.24 0.015 260), var(--card));
+  overflow: hidden;
+}
+
+/* Fios no topo da bomba */
+.fios {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.fio {
+  width: 6px;
+  height: 26px;
+  border-radius: 0 0 4px 4px;
+}
+
+.fio.vermelho { background-color: var(--danger); }
+.fio.azul { background-color: var(--info); }
+.fio.amarelo { background-color: var(--warning); }
+
+/* Visor com o cronômetro */
+.visor {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px;
+  background-color: var(--visor);
+  border: 2px solid oklch(0.3 0.03 150);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 20px oklch(0 0 0 / 0.6);
+}
+
+.tempo {
+  font-family: 'DM Mono', monospace;
+  font-size: 3.2rem;
+  font-weight: 500;
+  letter-spacing: 4px;
+  color: var(--success);
+  text-shadow: 0 0 12px oklch(0.72 0.17 150 / 0.7);
+}
+
+.led {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--danger);
+  box-shadow: 0 0 10px var(--danger);
+  animation: piscar 1s infinite;
+}
+
+/* Quando o tempo está acabando, o visor fica vermelho e pisca mais rápido */
+.bomba.perigo .tempo {
+  color: var(--danger);
+  text-shadow: 0 0 14px oklch(0.62 0.22 25 / 0.8);
+}
+
+.bomba.perigo .led {
+  animation-duration: 0.35s;
+}
+
+.bomba.perigo {
+  animation: tremer 0.3s infinite;
+}
+
+.barra-tempo {
+  width: 100%;
+  max-width: 360px;
+  height: 8px;
+  background-color: var(--surface);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.barra-preenchida {
+  height: 100%;
+  width: 100%;
+  background-color: var(--success);
+  border-radius: 99px;
+  transition: width 1s linear, background-color 0.3s;
+}
+
+/* Casas dos dígitos */
+.casas {
+  display: flex;
+  gap: 10px;
+}
+
+.casa {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 62px;
+  background-color: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Mono', monospace;
+  font-size: 1.8rem;
+}
+
+.casa.atual {
+  border-color: var(--brand);
+}
+
+.casa.preenchida {
+  border-color: var(--muted-fg);
+}
+
+/* Casa revelada pela dica */
+.casa.revelada {
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.mensagem {
+  min-height: 1.4em;
+  margin: 0;
+  text-align: center;
+  color: var(--muted-fg);
+}
+
+.mensagem.erro {
+  color: var(--danger);
+}
+
+.mensagem.aviso {
+  color: var(--warning);
+}
+
+/* Animação quando o jogador erra */
+.casas.balancar {
+  animation: balancar 0.4s;
+}
+
+/* Teclado numérico */
+.teclado {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  gap: 10px;
+}
+
+.tecla {
+  height: 56px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-bottom-width: 4px;
+  border-radius: var(--radius-sm);
+  color: var(--foreground);
+  font-family: 'DM Mono', monospace;
+  font-size: 1.4rem;
+}
+
+.tecla:hover {
+  background-color: var(--accent);
+}
+
+.tecla:active,
+.tecla.pressionada {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.tecla.apagar {
+  color: var(--warning);
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.tecla.confirmar {
+  background-color: var(--success);
+  border-color: oklch(0.55 0.15 150);
+  color: oklch(0.15 0.02 150);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.tentativas {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+}
+
+.luzes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.luz {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--success);
+  box-shadow: 0 0 6px var(--success);
+}
+
+.luz.apagada {
+  background-color: var(--border);
+  box-shadow: none;
+}
+
+/* Painel lateral */
+.painel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.historico {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+}
+
+.historico li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  background-color: var(--surface);
+  border-radius: var(--radius-sm);
+  animation: aparecer 0.25s ease-out;
+}
+
+.historico li.vazio {
+  justify-content: center;
+  color: var(--muted-fg);
+  font-size: 0.9rem;
+  background-color: transparent;
+}
+
+.palpite {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.15rem;
+  letter-spacing: 3px;
+}
+
+.bolinhas {
+  display: flex;
+  gap: 4px;
+}
+
+/* ---------- Resultado ---------- */
+
+.sobreposicao {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background-color: oklch(0 0 0 / 0.7);
+  z-index: 10;
+  animation: aparecer 0.3s ease-out;
+}
+
+.resultado {
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.resultado h2 {
+  margin-top: 8px;
+  font-size: 1.6rem;
+}
+
+.resultado p {
+  color: var(--muted-fg);
+}
+
+.icone-resultado {
+  display: grid;
+  place-items: center;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+}
+
+.icone-resultado.vitoria {
+  background-color: oklch(0.72 0.17 150 / 0.15);
+  color: var(--success);
+}
+
+.icone-resultado.derrota {
+  background-color: oklch(0.62 0.22 25 / 0.15);
+  color: var(--danger);
+}
+
+.codigo-revelado {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 16px 0;
+  padding: 14px;
+  background-color: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.codigo-revelado span {
+  font-size: 0.8rem;
+  color: var(--muted-fg);
+}
+
+.codigo-revelado strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 1.8rem;
+  letter-spacing: 6px;
+}
+
+.novo-recorde {
+  color: var(--warning) !important;
+  font-weight: 700;
+}
+
+.acoes {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/* Clarão branco/laranja da explosão */
+.clarao {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle, oklch(0.98 0.05 90), oklch(0.7 0.2 40) 40%, transparent 75%);
+  opacity: 0;
+  z-index: 20;
+}
+
+.clarao.ativo {
+  animation: explodir 0.9s ease-out;
+}
+
+/* ---------- Animações ---------- */
+
+@keyframes piscar {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+@keyframes tremer {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  75% { transform: translate(1px, -1px); }
+}
+
+@keyframes balancar {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes explodir {
+  0% { opacity: 0; transform: scale(0.3); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: scale(2); }
+}
+
+/* ---------- Celular ---------- */
+
+@media (max-width: 760px) {
+  .jogo {
+    grid-template-columns: 1fr;
+  }
+
+  .tempo {
+    font-size: 2.4rem;
+  }
+
+  .casa {
+    width: 42px;
+    height: 52px;
+    font-size: 1.5rem;
+  }
+
+  .teclado {
+    grid-template-columns: repeat(3, 64px);
+  }
+}
